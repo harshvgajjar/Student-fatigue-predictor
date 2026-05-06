@@ -72,10 +72,10 @@ st.markdown("""
 # ── Load models ────────────────────────────────────────────────
 @st.cache_resource
 def load_models():
-    model   = joblib.load("models/xgb_clean.pkl")
-    scaler  = joblib.load("models/scaler_safe.pkl")
-    features = json.load(open("models/features_safe.json"))
-    results  = json.load(open("models/results.json"))
+   model   = joblib.load("xgb_clean.pkl")
+scaler  = joblib.load("scaler_safe.pkl")
+features = json.load(open("features_safe.json"))
+results  = json.load(open("results.json"))
     return model, scaler, features, results
 
 model, scaler, features, results = load_models()
