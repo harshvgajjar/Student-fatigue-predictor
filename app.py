@@ -36,6 +36,12 @@ st.markdown(f"""
 
 [data-testid="stToolbar"],[data-testid="stDecoration"],#MainMenu{{display:none!important}}
 [data-testid="stHeader"]{{background:#{BG}!important;border:none!important;box-shadow:none!important}}
+[data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapseButton"] p,
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] p {{display:none!important}}
+[data-testid="stSidebarCollapseButton"] {{background:{A}!important;border:none!important;border-radius:8px!important;width:32px!important;height:32px!important;margin:8px!important;box-shadow:0 0 12px {A}60!important}}
+[data-testid="stSidebarCollapseButton"] svg {{color:#fff!important;fill:#fff!important;display:block!important}}
 
 .stApp{{background:#{BG}!important;font-family:'Exo 2',sans-serif!important;color:{TEXT}!important;min-height:100vh;overflow-x:hidden}}
 .stApp::before{{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 10%,{N1},transparent),radial-gradient(ellipse 60% 70% at 85% 90%,{N2},transparent),#{BG};z-index:0;pointer-events:none}}
@@ -259,8 +265,8 @@ with tab1:
         with a:
             st.markdown('<div class="fl">Course Week</div><div class="fh">1 = start · 40 = end</div>', unsafe_allow_html=True)
             week_of_module = st.slider("_wk",0,40,p["week"] if p else 5,label_visibility="collapsed")
-            st.markdown('<div class="fl">Day of Week</div>', unsafe_allow_html=True)
-            day_of_week = st.selectbox("_dw",[0,1,2,3,4,5,6],index=p["day"] if p else 0,format_func=lambda x:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][x],label_visibility="collapsed")
+            st.markdown('<div class="fl">Day of Week</div><div class="fh">Select the day the student studied</div>', unsafe_allow_html=True)
+            day_of_week = st.selectbox("_dw",[0,1,2,3,4,5,6],index=p["day"] if p else 0,format_func=lambda x:["📅 Monday","📅 Tuesday","📅 Wednesday","📅 Thursday","📅 Friday","📅 Saturday","📅 Sunday"][x],label_visibility="collapsed")
             st.markdown('<div class="fl">Sessions So Far</div><div class="fh">Each platform visit = 1 session</div>', unsafe_allow_html=True)
             session_number = st.number_input("_sn",1,500,p["sess"] if p else 10,label_visibility="collapsed")
         with b:
@@ -278,10 +284,10 @@ with tab1:
             latest_score = st.slider("_ls",0,100,p["ls"] if p else 65,label_visibility="collapsed")
             st.markdown('<div class="fl">Average Score</div>', unsafe_allow_html=True)
             rolling_score = float(st.slider("_rs",0,100,p["rs"] if p else 62,label_visibility="collapsed"))
-            st.markdown('<div class="fl">Score Trend</div>', unsafe_allow_html=True)
-            OPTS=["Improving a lot","Improving slightly","Steady","Dropping slightly","Dropping a lot"]
+            st.markdown('<div class="fl">Score Trend</div><div class="fh">Are recent assignment scores going up or down?</div>', unsafe_allow_html=True)
+            OPTS=["📈 Improving a lot (+8)","📈 Improving slightly (+3)","➡️ Staying steady (0)","📉 Dropping slightly (-3)","📉 Dropping a lot (-8)"]
             stlbl=st.selectbox("_stl",OPTS,index=p["stx"] if p else 2,label_visibility="collapsed")
-            score_trend={"Improving a lot":8.0,"Improving slightly":3.0,"Steady":0.0,"Dropping slightly":-3.0,"Dropping a lot":-8.0}[stlbl]
+            score_trend={"📈 Improving a lot (+8)":8.0,"📈 Improving slightly (+3)":3.0,"➡️ Staying steady (0)":0.0,"📉 Dropping slightly (-3)":-3.0,"📉 Dropping a lot (-8)":-8.0}[stlbl]
         with d:
             st.markdown('<div class="fl">Avg Days Late Submitting</div><div class="fh">0 = always on time</div>', unsafe_allow_html=True)
             avg_submission_lag = float(st.slider("_al",0,15,p["lag"] if p else 2,label_visibility="collapsed"))
