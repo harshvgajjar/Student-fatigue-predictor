@@ -72,6 +72,8 @@ st.markdown(f"""
 
 [data-testid="stSidebar"]{{background:{SIDEBAR}!important;border-right:1px solid {CB}!important;z-index:10}}
 [data-testid="stSidebar"] *{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
+[data-testid="stSidebar"] .stButton>button{{color:white!important;background:linear-gradient(135deg,{A},{A2})!important;border:none!important;border-radius:10px!important;font-family:'Exo 2',sans-serif!important;font-weight:700!important;font-size:.85rem!important;padding:10px!important;width:100%!important;margin:4px 0!important;box-shadow:0 4px 16px {A}50!important;letter-spacing:.06em}}
+[data-testid="stSidebar"] .stButton>button:hover{{transform:translateY(-1px)!important;box-shadow:0 6px 20px {A}70!important}}
 
 h1,h2,h3{{font-family:'Orbitron',monospace!important;letter-spacing:.05em}}
 
@@ -192,8 +194,12 @@ model, scaler, features, results = load_models()
 
 # ── SIDEBAR ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown(f"<p style='font-family:Orbitron,monospace;font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,{A},{A2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.1em;margin:0'>◈ FATIGUESENSE</p>", unsafe_allow_html=True)
-    st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.6rem;color:#475569;letter-spacing:.15em;margin-top:2px'>STUDENT FATIGUE DETECTION AI</p>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style='padding:8px 4px 4px'>
+        <p style='font-family:Orbitron,monospace!important;font-size:1.15rem;font-weight:900;color:{A}!important;letter-spacing:.1em;margin:0;-webkit-text-fill-color:{A}!important'>◈ FATIGUESENSE</p>
+        <p style='font-family:JetBrains Mono,monospace;font-size:.6rem;color:#64748b!important;letter-spacing:.15em;margin-top:3px'>STUDENT FATIGUE AI</p>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("---")
 
     mode_label = "☀️ LIGHT MODE" if dark else "🌙 DARK MODE"
