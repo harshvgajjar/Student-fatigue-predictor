@@ -72,8 +72,23 @@ st.markdown(f"""
 
 [data-testid="stSidebar"]{{background:{SIDEBAR}!important;border-right:1px solid {CB}!important;z-index:10}}
 [data-testid="stSidebar"] *{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
-[data-testid="stSidebar"] .stButton>button{{color:white!important;background:linear-gradient(135deg,{A},{A2})!important;border:none!important;border-radius:10px!important;font-family:'Exo 2',sans-serif!important;font-weight:700!important;font-size:.85rem!important;padding:10px!important;width:100%!important;margin:4px 0!important;box-shadow:0 4px 16px {A}50!important;letter-spacing:.06em}}
-[data-testid="stSidebar"] .stButton>button:hover{{transform:translateY(-1px)!important;box-shadow:0 6px 20px {A}70!important}}
+[data-testid="stSidebar"] .stButton>button{{
+    color:white!important;
+    background:linear-gradient(135deg,#38bdf8,#818cf8)!important;
+    border:none!important;
+    border-radius:10px!important;
+    font-family:'Exo 2',sans-serif!important;
+    font-weight:700!important;
+    font-size:.85rem!important;
+    padding:10px 16px!important;
+    width:100%!important;
+    margin:6px 0!important;
+    box-shadow:0 4px 16px rgba(56,189,248,0.5)!important;
+    letter-spacing:.06em!important;
+    -webkit-text-fill-color:white!important;
+}}
+[data-testid="stSidebar"] .stButton>button p{{color:white!important;-webkit-text-fill-color:white!important}}
+[data-testid="stSidebar"] .stButton>button:hover{{transform:translateY(-1px)!important;box-shadow:0 6px 22px rgba(56,189,248,0.7)!important}}
 
 h1,h2,h3{{font-family:'Orbitron',monospace!important;letter-spacing:.05em}}
 
