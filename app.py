@@ -59,7 +59,40 @@ footer{{display:none!important}}
 [data-testid="stSidebar"] .stMarkdown p,
 [data-testid="stSidebar"] .stMarkdown div{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
 
+/* ── Hide keyboard_double text only, keep icons ── */
+[data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapseButton"] p,
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] p {{display:none!important}}
 
+/* ── Collapse button inside sidebar ── */
+[data-testid="stSidebarCollapseButton"] {{
+    background:#38bdf8!important;border:none!important;
+    border-radius:8px!important;width:32px!important;height:32px!important;
+    margin:8px!important;display:flex!important;align-items:center!important;
+    justify-content:center!important;box-shadow:0 0 12px #38bdf860!important;
+}}
+[data-testid="stSidebarCollapseButton"] svg {{
+    color:#ffffff!important;fill:#ffffff!important;
+    display:block!important;width:16px!important;height:16px!important;
+}}
+[data-testid="stSidebarCollapseButton"]:hover {{opacity:0.85!important}}
+
+/* ── Reopen button — fixed blue tab on left edge ── */
+[data-testid="collapsedControl"] {{
+    background:#38bdf8!important;border:none!important;
+    border-radius:0 8px 8px 0!important;
+    width:28px!important;height:48px!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    position:fixed!important;left:0!important;top:50%!important;
+    transform:translateY(-50%)!important;z-index:9999!important;
+    box-shadow:4px 0 16px #38bdf850!important;cursor:pointer!important;
+}}
+[data-testid="collapsedControl"] svg {{
+    color:#ffffff!important;fill:#ffffff!important;
+    display:block!important;width:14px!important;height:14px!important;
+}}
+[data-testid="collapsedControl"]:hover {{width:36px!important;opacity:0.9!important}}
 
 /* Headings */
 h1,h2,h3{{font-family:'Orbitron',monospace!important;letter-spacing:.05em}}
@@ -198,7 +231,7 @@ with st.sidebar:
 
     # Dark / Light toggle — inside sidebar, always works
     mode_label = "☀️  Switch to Light Mode" if dark else "🌙  Switch to Dark Mode"
-    if st.button(mode_label, use_container_width=True):
+    if st.button(mode_label, width="stretch"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
@@ -243,7 +276,7 @@ st.markdown(f"""
 _c1, _c2 = st.columns([8.5, 1.5])
 with _c2:
     mode_icon = "☀️ Light" if dark else "🌙 Dark"
-    if st.button(mode_icon, use_container_width=True, key="main_toggle"):
+    if st.button(mode_icon, width="stretch", key="main_toggle"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
@@ -273,13 +306,13 @@ with tab1:
         pb1,pb2,pb3,pb4 = st.columns(4)
         preset = None
         with pb1:
-            if st.button("😰 Stressed",  use_container_width=True): preset="stressed"
+            if st.button("😰 Stressed",  width="stretch"): preset="stressed"
         with pb2:
-            if st.button("😊 Relaxed",   use_container_width=True): preset="relaxed"
+            if st.button("😊 Relaxed",   width="stretch"): preset="relaxed"
         with pb3:
-            if st.button("📅 Deadline",  use_container_width=True): preset="deadline"
+            if st.button("📅 Deadline",  width="stretch"): preset="deadline"
         with pb4:
-            if st.button("🌟 Top",       use_container_width=True): preset="top"
+            if st.button("🌟 Top",       width="stretch"): preset="top"
 
         PD = {
             "stressed": dict(week=8, day=0, sess=45, dtd=2,  pre=1, prog=60, ls=45, rs=42, stx=3, lag=4, na=4, ir=4.0, mcr=18.0),
@@ -350,7 +383,7 @@ with tab1:
 
         st.markdown("</div>", unsafe_allow_html=True)
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
-        predict_btn = st.button("⚡  ANALYSE FATIGUE LEVEL", type="primary", use_container_width=True)
+        predict_btn = st.button("⚡  ANALYSE FATIGUE LEVEL", type="primary", width="stretch")
 
     with right:
         # About
@@ -426,7 +459,7 @@ with tab1:
                 "Importance":[f"{v*100:.1f}%" for v in model.feature_importances_],
                 "Value":[round(inp[feat],1) for feat in features]
             }).sort_values("Importance",ascending=False).head(6).reset_index(drop=True)
-            st.dataframe(fi,use_container_width=True,hide_index=True)
+            st.dataframe(fi,width="stretch",hide_index=True)
 
         else:
             st.markdown("""<div class="await">
@@ -463,7 +496,7 @@ with tab2:
         "Recall":   [0.866,0.853,0.848,0.600],
         "Dataset":  ["OULAD","OULAD","OULAD","EdNet KT4"],
     })
-    st.dataframe(df_res, use_container_width=True, hide_index=True)
+    st.dataframe(df_res, width="stretch", hide_index=True)
 
     st.markdown(f"""<div class="card" style="margin-top:16px">
     <div class="card-title">◈ Key Findings</div>
@@ -481,7 +514,7 @@ with tab2:
         "AUC Gap":  [0.002,0.009,0.001,0.004],
         "Recall Gap":[0.022,0.060,0.003,0.012],
         "Status":   ["✅ Fair","⚠️ Flagged","✅ Fair","✅ Fair"],
-    }), use_container_width=True, hide_index=True)
+    }), width="stretch", hide_index=True)
     st.markdown(f'<p style="font-family:Exo 2,sans-serif;font-size:.8rem;color:{TEXT2};margin-top:8px">Note: Age-band recall gap of 0.060 is marginally above 0.05 threshold — attributable to small 55+ sample size (3,086 vs 175,962) rather than genuine bias.</p>', unsafe_allow_html=True)
 
 # ════════════════════════════════════════════
