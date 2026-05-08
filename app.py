@@ -52,18 +52,40 @@ st.markdown(f"""
 [data-testid="stSidebarCollapseButton"] svg {{color:#fff!important;fill:#fff!important;display:block!important;width:16px!important;height:16px!important}}
 [data-testid="stSidebarCollapseButton"]:hover {{opacity:.85!important}}
 
-/* Reopen button — visible on main page when sidebar is collapsed */
+/* Reopen button — big visible blue tab on left when sidebar is closed */
 [data-testid="collapsedControl"] {{
-    background:{A}!important;border:none!important;
-    border-radius:0 8px 8px 0!important;
-    width:28px!important;height:52px!important;
-    display:flex!important;align-items:center!important;justify-content:center!important;
-    position:fixed!important;left:0!important;top:50%!important;
-    transform:translateY(-50%)!important;z-index:9999!important;
-    box-shadow:4px 0 16px {A}55!important;cursor:pointer!important;
+    background: linear-gradient(135deg, #38bdf8, #818cf8) !important;
+    border: none !important;
+    border-radius: 0 12px 12px 0 !important;
+    width: 36px !important;
+    height: 64px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 99999 !important;
+    box-shadow: 4px 0 20px rgba(56,189,248,0.6) !important;
+    cursor: pointer !important;
+    transition: width 0.2s !important;
 }}
-[data-testid="collapsedControl"] svg {{color:#fff!important;fill:#fff!important;display:block!important;width:14px!important;height:14px!important}}
-[data-testid="collapsedControl"]:hover {{width:36px!important;opacity:.9!important}}
+[data-testid="collapsedControl"]:hover {{
+    width: 48px !important;
+    box-shadow: 4px 0 28px rgba(56,189,248,0.8) !important;
+}}
+[data-testid="collapsedControl"] svg {{
+    color: white !important;
+    fill: white !important;
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+}}
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] p {{
+    display: none !important;
+}}
 
 .stApp{{background:#{BG}!important;font-family:'Exo 2',sans-serif!important;color:{TEXT}!important;min-height:100vh;overflow-x:hidden}}
 .stApp::before{{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 10%,{N1},transparent),radial-gradient(ellipse 60% 70% at 85% 90%,{N2},transparent),#{BG};z-index:0;pointer-events:none}}
