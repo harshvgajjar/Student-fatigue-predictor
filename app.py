@@ -59,15 +59,7 @@ footer{{display:none!important}}
 [data-testid="stSidebar"] .stMarkdown p,
 [data-testid="stSidebar"] .stMarkdown div{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
 
-/* Sidebar collapse/expand button — keep it visible and styled */
-[data-testid="stSidebarCollapseButton"]{{opacity:1!important;visibility:visible!important}}
-[data-testid="stSidebarCollapseButton"] button{{background:linear-gradient(135deg,#38bdf8,#818cf8)!important;border:none!important;border-radius:8px!important;width:36px!important;height:36px!important;box-shadow:0 0 14px rgba(56,189,248,0.5)!important}}
-[data-testid="stSidebarCollapseButton"] button svg{{color:white!important;fill:white!important}}
 
-/* Collapsed control — sidebar reopen tab */
-[data-testid="collapsedControl"]{{opacity:1!important;visibility:visible!important;display:flex!important}}
-[data-testid="collapsedControl"] button{{background:linear-gradient(135deg,#38bdf8,#818cf8)!important;border:none!important;border-radius:0 12px 12px 0!important;width:32px!important;height:56px!important;box-shadow:4px 0 18px rgba(56,189,248,0.6)!important;margin:0!important;padding:0!important}}
-[data-testid="collapsedControl"] button svg{{color:white!important;fill:white!important;display:block!important}}
 
 /* Headings */
 h1,h2,h3{{font-family:'Orbitron',monospace!important;letter-spacing:.05em}}
