@@ -221,32 +221,11 @@ def load_models():
     return m, s, f, r
 model, scaler, features, results = load_models()
 
-# ── TOP BUTTONS — dark mode + model info always visible ──────────────────────
-top1, top2, top3 = st.columns([6, 2, 2])
-with top2:
-    with st.expander("📊 Model Info", expanded=False):
-        xgb_r = results["xgb"]
-        st.markdown(f"""
-        <div class="spec" style="line-height:2">
-        ◈ Algorithm: <span style="color:#38bdf8">XGBoost</span><br>
-        ◈ Sessions: <span style="color:#38bdf8">1,808,119</span><br>
-        ◈ Students: <span style="color:#38bdf8">26,074</span><br>
-        ◈ Features: <span style="color:#38bdf8">33</span><br>
-        ◈ Accuracy: <span style="color:#38bdf8">{xgb_r['test_acc']*100:.1f}%</span><br>
-        ◈ AUC-ROC: <span style="color:#38bdf8">{xgb_r['test_auc']:.4f}</span><br>
-        ◈ F1 Score: <span style="color:#38bdf8">{xgb_r['test_f1']:.4f}</span><br>
-        ◈ Precision: <span style="color:#38bdf8">{xgb_r['test_prec']:.4f}</span><br>
-        ◈ Recall: <span style="color:#38bdf8">{xgb_r['test_rec']:.4f}</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("---")
-        for k, lbl in [("xgb","⭐ XGBoost"),("rf","🌲 Random Forest"),("lr","📈 Logistic Reg.")]:
-            r = results[k]
-            st.markdown(f"<p style='font-size:.78rem;color:#38bdf8;font-weight:700;margin:4px 0 1px;font-family:Exo 2,sans-serif'>{lbl}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='font-size:.65rem;color:#64748b;margin:0;font-family:JetBrains Mono,monospace'>AUC {r['test_auc']:.3f} · F1 {r['test_f1']:.3f} · Acc {r['test_acc']*100:.1f}%</p>", unsafe_allow_html=True)
-with top3:
+# ── TOP — dark mode button only, top right ───────────────────────────────────
+_t1, _t2 = st.columns([8.5, 1.5])
+with _t2:
     mode_label = "☀️ Light" if dark else "🌙 Dark"
-    if st.button(mode_label, width="stretch"):
+    if st.button(mode_label, width="stretch", key="top_toggle"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
@@ -557,6 +536,40 @@ with tab3:
         <div class="pill pg">✓ Future: Full KT4 LSTM training (297K users)</div><br>
         <div class="pill pg">✓ Future: Transformer-based sequential models</div>
         </div>""", unsafe_allow_html=True)
+
+# ── MODEL INFO SECTION ────────────────────────────────────────────────────────
+st.markdown('<div class="sec">◈ Model Information</div>', unsafe_allow_html=True)
+xgb_r = results["xgb"]
+mi1, mi2, mi3 = st.columns(3)
+with mi1:
+    st.markdown(f"""<div class="card">
+    <div class="card-title">◈ Model Specs</div>
+    <p class="ab">Algorithm: <strong>XGBoost</strong><br>
+    Dataset: <strong>OULAD</strong><br>
+    Sessions: <strong>1,808,119</strong><br>
+    Students: <strong>26,074</strong><br>
+    Features: <strong>33</strong><br>
+    Split: <strong>70/15/15</strong><br>
+    Class balance: <strong>74% Not-Fatigued · 26% Fatigued</strong></p>
+    </div>""", unsafe_allow_html=True)
+with mi2:
+    st.markdown(f"""<div class="card">
+    <div class="card-title">◈ XGBoost Performance</div>
+    <p class="ab">
+    Accuracy: <strong>{xgb_r['test_acc']*100:.1f}%</strong><br>
+    AUC-ROC: <strong>{xgb_r['test_auc']:.4f}</strong><br>
+    F1 Score: <strong>{xgb_r['test_f1']:.4f}</strong><br>
+    Precision: <strong>{xgb_r['test_prec']:.4f}</strong><br>
+    Recall: <strong>{xgb_r['test_rec']:.4f}</strong><br>
+    False Positives: <strong>6,533</strong><br>
+    FP Reduction vs LR: <strong>63%</strong></p>
+    </div>""", unsafe_allow_html=True)
+with mi3:
+    st.markdown(f'<div class="card"><div class="card-title">◈ All Models Compared</div>', unsafe_allow_html=True)
+    for k, lbl in [("xgb","⭐ XGBoost"),("rf","🌲 Random Forest"),("lr","📈 Logistic Reg.")]:
+        r = results[k]
+        st.markdown(f"<p style='font-size:.82rem;color:#38bdf8;font-weight:700;margin:8px 0 2px;font-family:Exo 2,sans-serif'>{lbl}</p><p style='font-size:.75rem;color:{TEXT2};margin:0;font-family:JetBrains Mono,monospace'>Acc {r['test_acc']*100:.1f}% · AUC {r['test_auc']:.3f} · F1 {r['test_f1']:.3f}</p>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Footer ─────────────────────────────────────────────────────────────────────
 st.markdown(f"""
