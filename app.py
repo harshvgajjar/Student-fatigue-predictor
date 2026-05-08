@@ -7,16 +7,39 @@ import streamlit as st
 import joblib, json, numpy as np, pandas as pd, warnings
 warnings.filterwarnings("ignore")
 
-if "sidebar_state" not in st.session_state:
-    st.session_state.sidebar_state = "expanded"
-
 st.set_page_config(
     page_title="FatigueSense · AI",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state=st.session_state.sidebar_state
+    initial_sidebar_state="expanded"
 )
 
+/* ── MOVE SIDEBAR BUTTON TO LEFT ───────────────────── */
+
+[data-testid="collapsedControl"] {
+    position: fixed !important;
+    left: 12px !important;
+    top: 20px !important;
+    z-index: 99999 !important;
+
+    background: linear-gradient(135deg,#38bdf8,#818cf8)!important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+
+    box-shadow: 0 4px 20px rgba(56,189,248,0.45)!important;
+}
+
+/* icon */
+[data-testid="collapsedControl"] svg {
+    color: white !important;
+    fill: white !important;
+}
+
+/* remove text only */
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] p {
+    display: none !important;
+}
 # ── Dark / Light ──────────────────────────────────────────────────────────────
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = True
@@ -223,16 +246,6 @@ with st.sidebar:
 # ── TOP BUTTONS ─────────────────────────────────────────
 toggle_col1, toggle_col2, toggle_col3, toggle_col4 = st.columns([5,1,1,1])
 
-# Sidebar toggle
-with toggle_col3:
-    if st.button("☰", use_container_width=True):
-
-        if st.session_state.sidebar_state == "expanded":
-            st.session_state.sidebar_state = "collapsed"
-        else:
-            st.session_state.sidebar_state = "expanded"
-
-        st.rerun()
 
 # Dark mode toggle
 with toggle_col4:
