@@ -7,11 +7,14 @@ import streamlit as st
 import joblib, json, numpy as np, pandas as pd, warnings
 warnings.filterwarnings("ignore")
 
+if "sidebar_state" not in st.session_state:
+    st.session_state.sidebar_state = "expanded"
+
 st.set_page_config(
     page_title="FatigueSense · AI",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state=st.session_state.sidebar_state
 )
 
 # ── Dark / Light ──────────────────────────────────────────────────────────────
@@ -36,56 +39,6 @@ st.markdown(f"""
 
 [data-testid="stToolbar"],[data-testid="stDecoration"],#MainMenu{{display:none!important}}
 [data-testid="stHeader"]{{background:#{BG}!important;border:none!important;box-shadow:none!important}}
-/* Hide only the text label, keep buttons visible */
-[data-testid="stSidebarCollapseButton"] span,
-[data-testid="stSidebarCollapseButton"] p {{display:none!important}}
-[data-testid="collapsedControl"] span,
-[data-testid="collapsedControl"] p {{display:none!important}}
-
-/* Collapse button — inside sidebar */
-[data-testid="stSidebarCollapseButton"] {{
-    background:{A}!important;border:none!important;
-    border-radius:8px!important;width:32px!important;height:32px!important;
-    margin:8px!important;box-shadow:0 0 12px {A}60!important;
-    display:flex!important;align-items:center!important;justify-content:center!important;
-}}
-[data-testid="stSidebarCollapseButton"] svg {{color:#fff!important;fill:#fff!important;display:block!important;width:16px!important;height:16px!important}}
-[data-testid="stSidebarCollapseButton"]:hover {{opacity:.85!important}}
-
-/* Reopen button — big visible blue tab on left when sidebar is closed */
-[data-testid="collapsedControl"] {{
-    background: linear-gradient(135deg, #38bdf8, #818cf8) !important;
-    border: none !important;
-    border-radius: 0 12px 12px 0 !important;
-    width: 36px !important;
-    height: 64px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: fixed !important;
-    left: 0 !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 99999 !important;
-    box-shadow: 4px 0 20px rgba(56,189,248,0.6) !important;
-    cursor: pointer !important;
-    transition: width 0.2s !important;
-}}
-[data-testid="collapsedControl"]:hover {{
-    width: 48px !important;
-    box-shadow: 4px 0 28px rgba(56,189,248,0.8) !important;
-}}
-[data-testid="collapsedControl"] svg {{
-    color: white !important;
-    fill: white !important;
-    display: block !important;
-    width: 18px !important;
-    height: 18px !important;
-}}
-[data-testid="collapsedControl"] span,
-[data-testid="collapsedControl"] p {{
-    display: none !important;
-}}
 
 .stApp{{background:#{BG}!important;font-family:'Exo 2',sans-serif!important;color:{TEXT}!important;min-height:100vh;overflow-x:hidden}}
 .stApp::before{{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 10%,{N1},transparent),radial-gradient(ellipse 60% 70% at 85% 90%,{N2},transparent),#{BG};z-index:0;pointer-events:none}}
@@ -267,10 +220,24 @@ with st.sidebar:
     st.markdown("---")
     st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.58rem;color:#374151;text-align:center;letter-spacing:.1em'>DS7010 DISSERTATION · 2025-2026</p>", unsafe_allow_html=True)
 
-# ── TOGGLE BUTTON — always visible top right ─────────────────────────────────
-toggle_col1, toggle_col2, toggle_col3 = st.columns([6, 1, 1])
+# ── TOP BUTTONS ─────────────────────────────────────────
+toggle_col1, toggle_col2, toggle_col3, toggle_col4 = st.columns([5,1,1,1])
+
+# Sidebar toggle
 with toggle_col3:
-    mode_label = "☀️ Light" if dark else "🌙 Dark"
+    if st.button("☰", use_container_width=True):
+
+        if st.session_state.sidebar_state == "expanded":
+            st.session_state.sidebar_state = "collapsed"
+        else:
+            st.session_state.sidebar_state = "expanded"
+
+        st.rerun()
+
+# Dark mode toggle
+with toggle_col4:
+    mode_label = "☀️" if dark else "🌙"
+
     if st.button(mode_label, use_container_width=True):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
