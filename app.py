@@ -186,8 +186,7 @@ def load_models():
 model, scaler, features, results = load_models()
 
 # ── SIDEBAR ────────────────────────────────────────────────────────────────────
-if st.session_state.get("sidebar_open", True):
- with st.sidebar:
+with st.sidebar:
     st.markdown(f"""
     <div style='padding:4px 4px 8px'>
         <p style='font-family:Orbitron,monospace;font-size:1.1rem;font-weight:900;color:#38bdf8;letter-spacing:.1em;margin:0'>◈ FATIGUESENSE</p>
@@ -240,19 +239,9 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ── TOP ROW — sidebar toggle LEFT, dark mode RIGHT ──────────────────────────
-if "sidebar_open" not in st.session_state:
-    st.session_state.sidebar_open = True
-
-btn_left, btn_mid, btn_right = st.columns([1.5, 7, 1.5])
-
-with btn_left:
-    sidebar_icon = "✖ Close" if st.session_state.sidebar_open else "☰ Menu"
-    if st.button(sidebar_icon, use_container_width=True, key="sidebar_toggle"):
-        st.session_state.sidebar_open = not st.session_state.sidebar_open
-        st.rerun()
-
-with btn_right:
+# ── TOP ROW ──────────────────────────────────────────────────────────────────
+_c1, _c2 = st.columns([8.5, 1.5])
+with _c2:
     mode_icon = "☀️ Light" if dark else "🌙 Dark"
     if st.button(mode_icon, use_container_width=True, key="main_toggle"):
         st.session_state.dark_mode = not st.session_state.dark_mode
