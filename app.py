@@ -221,13 +221,6 @@ def load_models():
     return m, s, f, r
 model, scaler, features, results = load_models()
 
-# ── TOP — dark mode button only, top right ───────────────────────────────────
-_t1, _t2 = st.columns([8.5, 1.5])
-with _t2:
-    mode_label = "☀️ Light" if dark else "🌙 Dark"
-    if st.button(mode_label, width="stretch", key="top_toggle"):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
 
 # ── HERO ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
