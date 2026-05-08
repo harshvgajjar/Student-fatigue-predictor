@@ -54,7 +54,8 @@ footer{{display:none!important}}
 .main .block-container{{position:relative;z-index:1;padding:1rem 2rem 3rem!important;max-width:1350px!important}}
 
 /* Sidebar */
-[data-testid="stSidebar"]{{background:{SIDEBAR}!important;border-right:1px solid {CB}!important;z-index:10}}
+[data-testid="stSidebar"]{{display:none!important}}
+[data-testid="collapsedControl"]{{display:none!important}}
 [data-testid="stSidebar"] > div{{padding-top:1rem!important}}
 [data-testid="stSidebar"] .stMarkdown p,
 [data-testid="stSidebar"] .stMarkdown div{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
@@ -208,40 +209,7 @@ div[data-testid="stSlider"]>div>div>div>div{{background:{A}!important}}
 </script>
 """, unsafe_allow_html=True)
 
-# ── Custom sidebar toggle button — always visible on left edge ────────────────
-st.markdown("""
-<script>
-(function() {
-    function makeSidebarBtn() {
-        if (document.getElementById('fs-sb-btn')) return;
-        var b = document.createElement('button');
-        b.id = 'fs-sb-btn';
-        b.innerHTML = '&#9776;';
-        b.title = 'Toggle Sidebar';
-        b.style.cssText = 'position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:2147483647;background:linear-gradient(135deg,#38bdf8,#818cf8);color:#fff;border:none;border-radius:0 10px 10px 0;width:34px;height:54px;font-size:1.15rem;cursor:pointer;box-shadow:4px 0 18px rgba(56,189,248,0.6);display:flex;align-items:center;justify-content:center;transition:width .15s;';
-        b.onmouseenter = function(){ b.style.width='44px'; };
-        b.onmouseleave = function(){ b.style.width='34px'; };
-        b.onclick = function() {
-            var tries = [
-                '[data-testid="collapsedControl"] button',
-                '[data-testid="stSidebarCollapseButton"] button',
-                '[data-testid="collapsedControl"]',
-                '[data-testid="stSidebarCollapseButton"]'
-            ];
-            for (var i=0; i<tries.length; i++) {
-                var el = document.querySelector(tries[i]);
-                if (el) { el.click(); return; }
-            }
-        };
-        document.body.appendChild(b);
-    }
-    makeSidebarBtn();
-    setTimeout(makeSidebarBtn, 1000);
-    setTimeout(makeSidebarBtn, 2500);
-    setInterval(makeSidebarBtn, 4000);
-})();
-</script>
-""", unsafe_allow_html=True)
+
 
 # ── Load models ────────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -253,50 +221,34 @@ def load_models():
     return m, s, f, r
 model, scaler, features, results = load_models()
 
-# ── SIDEBAR ────────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown(f"""
-    <div style='padding:4px 4px 8px'>
-        <p style='font-family:Orbitron,monospace;font-size:1.1rem;font-weight:900;color:#38bdf8;letter-spacing:.1em;margin:0'>◈ FATIGUESENSE</p>
-        <p style='font-family:JetBrains Mono,monospace;font-size:.6rem;color:#475569;letter-spacing:.15em;margin-top:3px'>STUDENT FATIGUE AI</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    # Dark / Light toggle — inside sidebar, always works
-    mode_label = "☀️  Switch to Light Mode" if dark else "🌙  Switch to Dark Mode"
+# ── TOP BUTTONS — dark mode + model info always visible ──────────────────────
+top1, top2, top3 = st.columns([6, 2, 2])
+with top2:
+    with st.expander("📊 Model Info", expanded=False):
+        xgb_r = results["xgb"]
+        st.markdown(f"""
+        <div class="spec" style="line-height:2">
+        ◈ Algorithm: <span style="color:#38bdf8">XGBoost</span><br>
+        ◈ Sessions: <span style="color:#38bdf8">1,808,119</span><br>
+        ◈ Students: <span style="color:#38bdf8">26,074</span><br>
+        ◈ Features: <span style="color:#38bdf8">33</span><br>
+        ◈ Accuracy: <span style="color:#38bdf8">{xgb_r['test_acc']*100:.1f}%</span><br>
+        ◈ AUC-ROC: <span style="color:#38bdf8">{xgb_r['test_auc']:.4f}</span><br>
+        ◈ F1 Score: <span style="color:#38bdf8">{xgb_r['test_f1']:.4f}</span><br>
+        ◈ Precision: <span style="color:#38bdf8">{xgb_r['test_prec']:.4f}</span><br>
+        ◈ Recall: <span style="color:#38bdf8">{xgb_r['test_rec']:.4f}</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
+        for k, lbl in [("xgb","⭐ XGBoost"),("rf","🌲 Random Forest"),("lr","📈 Logistic Reg.")]:
+            r = results[k]
+            st.markdown(f"<p style='font-size:.78rem;color:#38bdf8;font-weight:700;margin:4px 0 1px;font-family:Exo 2,sans-serif'>{lbl}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='font-size:.65rem;color:#64748b;margin:0;font-family:JetBrains Mono,monospace'>AUC {r['test_auc']:.3f} · F1 {r['test_f1']:.3f} · Acc {r['test_acc']*100:.1f}%</p>", unsafe_allow_html=True)
+with top3:
+    mode_label = "☀️ Light" if dark else "🌙 Dark"
     if st.button(mode_label, width="stretch"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
-
-    st.markdown("---")
-    st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.68rem;color:#38bdf8;letter-spacing:.12em;margin:0'>◈ MODEL SPECS</p>", unsafe_allow_html=True)
-    xgb_r = results["xgb"]
-    st.markdown(f"""
-    <div class="spec">
-    ◈ Algorithm: <span>XGBoost</span><br>
-    ◈ Dataset: <span>OULAD</span><br>
-    ◈ Sessions: <span>1,808,119</span><br>
-    ◈ Students: <span>26,074</span><br>
-    ◈ Features: <span>33</span><br>
-    ◈ Accuracy: <span>{xgb_r['test_acc']*100:.1f}%</span><br>
-    ◈ AUC-ROC: <span>{xgb_r['test_auc']:.4f}</span><br>
-    ◈ F1 Score: <span>{xgb_r['test_f1']:.4f}</span><br>
-    ◈ Precision: <span>{xgb_r['test_prec']:.4f}</span><br>
-    ◈ Recall: <span>{xgb_r['test_rec']:.4f}</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("---")
-    st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.68rem;color:#38bdf8;letter-spacing:.12em;margin:0'>◈ ALL MODELS</p>", unsafe_allow_html=True)
-    for k, lbl in [("xgb","⭐ XGBoost"),("rf","🌲 Random Forest"),("lr","📈 Logistic Reg.")]:
-        r = results[k]
-        st.markdown(f"<p style='font-family:Exo 2,sans-serif;font-size:.78rem;color:#38bdf8;font-weight:700;margin:8px 0 1px'>{lbl}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.65rem;color:#64748b;margin:0'>AUC {r['test_auc']:.3f} · F1 {r['test_f1']:.3f} · Acc {r['test_acc']*100:.1f}%</p>", unsafe_allow_html=True)
-
-    st.markdown("---")
-    st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.58rem;color:#374151;text-align:center;letter-spacing:.1em'>DS7010 · MSc DATA SCIENCE · 2025-2026</p>", unsafe_allow_html=True)
 
 # ── HERO ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
