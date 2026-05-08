@@ -217,11 +217,6 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     st.markdown("---")
 
-    mode_label = "☀️ LIGHT MODE" if dark else "🌙 DARK MODE"
-    if st.button(mode_label, use_container_width=True):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
-
     st.markdown("---")
     st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.68rem;color:#94a3b8;letter-spacing:.12em'>◈ MODEL SPECS</p>", unsafe_allow_html=True)
     xgb = results["xgb"]
@@ -249,6 +244,14 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown(f"<p style='font-family:JetBrains Mono,monospace;font-size:.58rem;color:#374151;text-align:center;letter-spacing:.1em'>DS7010 DISSERTATION · 2025-2026</p>", unsafe_allow_html=True)
+
+# ── TOGGLE BUTTON — always visible top right ─────────────────────────────────
+toggle_col1, toggle_col2, toggle_col3 = st.columns([6, 1, 1])
+with toggle_col3:
+    mode_label = "☀️ Light" if dark else "🌙 Dark"
+    if st.button(mode_label, use_container_width=True):
+        st.session_state.dark_mode = not st.session_state.dark_mode
+        st.rerun()
 
 # ── HERO ──────────────────────────────────────────────────────────────────────
 st.markdown(f"""
