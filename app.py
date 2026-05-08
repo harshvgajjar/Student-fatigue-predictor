@@ -59,40 +59,69 @@ footer{{display:none!important}}
 [data-testid="stSidebar"] .stMarkdown p,
 [data-testid="stSidebar"] .stMarkdown div{{color:#e2e8f0!important;font-family:'Exo 2',sans-serif!important}}
 
-/* ── Hide keyboard_double text only, keep icons ── */
+
+/* ── Hide the keyboard_double label text only ── */
 [data-testid="stSidebarCollapseButton"] span,
 [data-testid="stSidebarCollapseButton"] p,
 [data-testid="collapsedControl"] span,
-[data-testid="collapsedControl"] p {{display:none!important}}
+[data-testid="collapsedControl"] p {{
+    display: none !important;
+}}
 
-/* ── Collapse button inside sidebar ── */
+/* ── Sidebar collapse button — visible contrast against dark sidebar ── */
 [data-testid="stSidebarCollapseButton"] {{
-    background:#38bdf8!important;border:none!important;
-    border-radius:8px!important;width:32px!important;height:32px!important;
-    margin:8px!important;display:flex!important;align-items:center!important;
-    justify-content:center!important;box-shadow:0 0 12px #38bdf860!important;
+    background: {A} !important;
+    border: none !important;
+    border-radius: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 12px rgba(56,189,248,0.4) !important;
 }}
 [data-testid="stSidebarCollapseButton"] svg {{
-    color:#ffffff!important;fill:#ffffff!important;
-    display:block!important;width:16px!important;height:16px!important;
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
 }}
-[data-testid="stSidebarCollapseButton"]:hover {{opacity:0.85!important}}
+[data-testid="stSidebarCollapseButton"]:hover {{
+    opacity: 0.85 !important;
+}}
 
-/* ── Reopen button — fixed blue tab on left edge ── */
+/* ── Collapsed control — button to RE-OPEN sidebar, visible on main bg ── */
 [data-testid="collapsedControl"] {{
-    background:#38bdf8!important;border:none!important;
-    border-radius:0 8px 8px 0!important;
-    width:28px!important;height:48px!important;
-    display:flex!important;align-items:center!important;justify-content:center!important;
-    position:fixed!important;left:0!important;top:50%!important;
-    transform:translateY(-50%)!important;z-index:9999!important;
-    box-shadow:4px 0 16px #38bdf850!important;cursor:pointer!important;
+    background: {A} !important;
+    border: none !important;
+    border-radius: 0 8px 8px 0 !important;
+    width: 28px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 9999 !important;
+    box-shadow: 4px 0 16px rgba(56,189,248,0.35) !important;
+    cursor: pointer !important;
 }}
 [data-testid="collapsedControl"] svg {{
-    color:#ffffff!important;fill:#ffffff!important;
-    display:block!important;width:14px!important;height:14px!important;
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    display: block !important;
+    width: 14px !important;
+    height: 14px !important;
 }}
-[data-testid="collapsedControl"]:hover {{width:36px!important;opacity:0.9!important}}
+[data-testid="collapsedControl"]:hover {{
+    width: 36px !important;
+    opacity: 0.9 !important;
+}}
+
 
 /* Headings */
 h1,h2,h3{{font-family:'Orbitron',monospace!important;letter-spacing:.05em}}
