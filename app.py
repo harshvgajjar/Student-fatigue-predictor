@@ -291,7 +291,7 @@ with tab1:
             week_of_module = st.slider("_wk",0,40,p["week"] if p else 5,label_visibility="collapsed")
             st.markdown('<div class="fl">Day of Week</div><div class="fh">Select the day the student studied</div>', unsafe_allow_html=True)
             day_of_week = st.selectbox("_dw",[0,1,2,3,4,5,6],index=p["day"] if p else 0,
-                format_func=lambda x:["📅 Monday","📅 Tuesday","📅 Wednesday","📅 Thursday","📅 Friday","📅 Saturday","📅 Sunday"][x],
+                format_func=lambda x:["1","2","3","4","5","6","7"][x],
                 label_visibility="collapsed")
             st.markdown('<div class="fl">Sessions So Far</div><div class="fh">Each platform visit = 1 session</div>', unsafe_allow_html=True)
             session_number = st.number_input("_sn",1,500,p["sess"] if p else 10,label_visibility="collapsed")
