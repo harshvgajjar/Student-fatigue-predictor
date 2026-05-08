@@ -247,6 +247,14 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# ── DARK/LIGHT TOGGLE — always visible top right ─────────────────────────────
+_tc1, _tc2 = st.columns([8.5, 1.5])
+with _tc2:
+    mode_icon = "☀️ Light" if dark else "🌙 Dark"
+    if st.button(mode_icon, use_container_width=True, key="main_toggle"):
+        st.session_state.dark_mode = not st.session_state.dark_mode
+        st.rerun()
+
 # ── KPI ROW ────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="kpi-row">
