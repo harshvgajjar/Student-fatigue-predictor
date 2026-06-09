@@ -126,6 +126,8 @@ MSc Data Science — University of East London
 🔗 https://www.linkedin.com/in/harsh-gajjar-3b317926b/
 
 ---
+## 🌐 Live Demo
+https://student-fatigue-predictor.streamlit.app/
 
 ## 📄 Supervisor
 
